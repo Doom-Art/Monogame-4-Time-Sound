@@ -57,7 +57,7 @@ namespace Monogame_4_Time___Sound
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds;
             }
             mouseState = Mouse.GetState();
-            // TODO: Add your update logic here
+            // TODO: Add your update logic here.
 
             base.Update(gameTime);
         }
