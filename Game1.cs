@@ -58,7 +58,7 @@ namespace Monogame_4_Time___Sound
                 Exit();
             seconds = (float)gameTime.TotalGameTime.TotalSeconds - startTime;
             countdown = 15 - seconds;
-            if (mouseState.LeftButton == ButtonState.Pressed){
+            if (mouseState.LeftButton == ButtonState.Pressed && (mouseState.X <= 700 && mouseState.X >= 800 )){
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds;
                 explosion = false;
             }
