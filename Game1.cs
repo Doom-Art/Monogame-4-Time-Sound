@@ -21,6 +21,9 @@ namespace Monogame_4_Time___Sound
         Texture2D boom;
         float timer;
         bool timerSet;
+        bool defused;
+        float defusedTime;
+        Texture2D scissorsTex;
 
         public Game1()
         {
@@ -34,8 +37,10 @@ namespace Monogame_4_Time___Sound
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
-            this.Window.Title = "Bomb";
+            this.Window.Title = "Bomb defuser cut the wires with the scissors (right click to reset)";
             explosion = false;
+            IsMouseVisible = false;
+            defused = false;
             bool timerSet = false;
             // TODO: Add your initialization logic here
 
@@ -49,6 +54,7 @@ namespace Monogame_4_Time___Sound
             _font = Content.Load<SpriteFont>("Time");
             explode = Content.Load<SoundEffect>("explosion");
             boom = Content.Load<Texture2D>("boom");
+            scissorsTex = Content.Load<Texture2D>("scissors");
             // TODO: use this.Content to load your game content here
         }
 
@@ -58,12 +64,19 @@ namespace Monogame_4_Time___Sound
                 Exit();
             seconds = (float)gameTime.TotalGameTime.TotalSeconds - startTime;
             countdown = 15 - seconds;
-            if (mouseState.LeftButton == ButtonState.Pressed && (mouseState.X <= 700 && mouseState.X >= 800 )){
+            if (mouseState.LeftButton == ButtonState.Pressed && (mouseState.X >= 685 && mouseState.X <= 710 ) && (mouseState.Y >= 190 && mouseState.Y <= 250)){
+                startTime = (float)gameTime.TotalGameTime.TotalSeconds;
+                explosion = false; defusedTime = seconds; defused = true;
+            }
+            if (mouseState.LeftButton == ButtonState.Pressed && (mouseState.X >= 720 && mouseState.X <= 740) && (mouseState.Y >= 160 && mouseState.Y <= 230))
+            {
+                startTime = (float)gameTime.TotalGameTime.TotalSeconds - 15;
+            }
+            if (mouseState.RightButton == ButtonState.Pressed && !explosion){
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds;
                 explosion = false;
+                defused = false;
             }
-            if (mouseState.RightButton == ButtonState.Pressed)
-                startTime = (float)gameTime.TotalGameTime.TotalSeconds - 14;
             if (seconds >= 15){
                 explode.Play();
                 explosion = true;
@@ -76,8 +89,8 @@ namespace Monogame_4_Time___Sound
             }
             if (timer <= (float)gameTime.TotalGameTime.TotalSeconds && explosion)
                 Exit();
-            if (explosion)
-                startTime = (float)gameTime.TotalGameTime.TotalSeconds;
+            if (defused)
+                startTime = (float)gameTime.TotalGameTime.TotalSeconds - defusedTime;
 
             mouseState = Mouse.GetState();
             // TODO: Add your update logic here.
@@ -95,6 +108,7 @@ namespace Monogame_4_Time___Sound
             }
             else
                 _spriteBatch.Draw(boom, new Rectangle(-90,-65, 1000,600), Color.White);
+            _spriteBatch.Draw(scissorsTex, new Rectangle(mouseState.X-30, mouseState.Y-25, 50, 50), Color.White);
             _spriteBatch.End();
             // TODO: Add your drawing code here
 
