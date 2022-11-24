@@ -78,8 +78,8 @@ namespace Monogame_4_Time___Sound
                 defused = false;
             }
             if (seconds >= 15){
-                explode.Play();
-                explosion = true;
+                if (!explode.IsDisposed)
+                    explode.Play();                explosion = true;
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds;
             }
             if (explosion && !timerSet)
