@@ -72,14 +72,16 @@ namespace Monogame_4_Time___Sound
             {
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds - 15;
             }
-            if (mouseState.RightButton == ButtonState.Pressed && !explosion){
+            if (mouseState.RightButton == ButtonState.Pressed){
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds;
                 explosion = false;
                 defused = false;
+                timerSet = false;
             }
             if (seconds >= 15){
                 if (!explode.IsDisposed)
-                    explode.Play();                explosion = true;
+                    explode.Play();
+                explosion = true;
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds;
             }
             if (explosion && !timerSet)
@@ -104,7 +106,7 @@ namespace Monogame_4_Time___Sound
             _spriteBatch.Begin();
             if (!explosion){
                 _spriteBatch.Draw(bombTexture, new Rectangle(50, 50, 700, 400), Color.White);
-                _spriteBatch.DrawString(_font, countdown.ToString("00.0"), new Vector2(270, 200), Color.Black);
+                _spriteBatch.DrawString(_font, countdown.ToString("0:00"), new Vector2(270, 200), Color.Black);
             }
             else
                 _spriteBatch.Draw(boom, new Rectangle(-90,-65, 1000,600), Color.White);
